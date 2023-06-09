@@ -5,8 +5,15 @@ import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 
 import styles from './Post.module.css';
+import { useState } from 'react';
 
 export function Post({ author, publishedAt, content }) {
+
+    const [comments, setComments ] = useState([
+        'Post muito bacana, hein?!'
+    ]);  
+
+    const [newCommentText, setNewCommentText] = useState('')
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'as' HH:mm'h'", {
         locale: ptBR,
@@ -16,6 +23,17 @@ export function Post({ author, publishedAt, content }) {
         locale: ptBR,
         addSuffix: true
     })
+
+    function handleCreateNewComment () {
+        event.preventDefault()
+
+        setComments([...comments, newCommentText]);
+        setNewCommentText('');
+    }
+
+    function handleNewCommentChanged(){
+        setNewCommentText(event.target.value);
+    }
 
     return (
         <article className={styles.post}>
@@ -38,19 +56,22 @@ export function Post({ author, publishedAt, content }) {
                 {content.map(line => {
                     if (line.type == 'paragraph') 
                     {
-                        return <p>{line.content}</p>
+                        return <p key={line.content}>{line.content}</p>
                     } else if (line.type == 'link') 
                     {
-                        return <p><a href="#">{line.content}</a></p>
+                        return <p key={line.content}><a href="#">{line.content}</a></p>
                     }
                 })}
             </div>
 
-            <form className={styles.commentForm}>
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
 
                 <textarea 
+                    name='comment'
                     placeholder='Deixe um comentario'
+                    value={newCommentText}
+                    onChange={handleNewCommentChanged}
                 />
 
                 <footer>
@@ -59,9 +80,9 @@ export function Post({ author, publishedAt, content }) {
             </form>
 
             <div className={styles.commentList}>
-                <Comment />
-                <Comment />
-                <Comment />
+                {comments.map(comment => {
+                    return <Comment key={comment} content={comment}/>
+                })}
             </div>
         </article>
     )
