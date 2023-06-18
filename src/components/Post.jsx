@@ -22,7 +22,7 @@ export function Post({ author, publishedAt, content }) {
     const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
         locale: ptBR,
         addSuffix: true
-    })
+    }) 
 
     function handleCreateNewComment () {
         event.preventDefault()
@@ -31,8 +31,13 @@ export function Post({ author, publishedAt, content }) {
         setNewCommentText('');
     }
 
-    function handleNewCommentChanged(){
+    function handleNewCommentChanged() {
+        event.target.setCustomValidity('');
         setNewCommentText(event.target.value);
+    }
+
+    function handleNewCommentInvalid() {
+        event.target.setCustomValidity('Este campo é obrigatório!');
     }
 
     function deleteComment (commentToDelete) {
@@ -41,6 +46,8 @@ export function Post({ author, publishedAt, content }) {
         })
         setComments(commentsWithoutDeletedOne);
     }
+
+    const isNewCommentEmpty = newCommentText.length == 0;
 
     return (
         <article className={styles.post}>
@@ -79,10 +86,12 @@ export function Post({ author, publishedAt, content }) {
                     placeholder='Deixe um comentario'
                     value={newCommentText}
                     onChange={handleNewCommentChanged}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
 
                 <footer>
-                    <button type="submit">Publicar</button>
+                    <button type="submit" disabled={isNewCommentmpty}>Publicar</button>
                 </footer>                
             </form>
 
