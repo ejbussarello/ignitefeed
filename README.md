@@ -4,7 +4,7 @@ Fórum de postagens, comentários e likes.
 
 ## Sobre o projeto
 
-Este projeto é fruto do curso Ignite, da Rocketseat. Se trata de um fórum, onde exitem componentees de postagem, onde neles podemos incluir e remover comentários e curtir uma publicação.
+Este projeto é fruto do curso Ignite, da Rocketseat. Se trata de um fórum, onde exitem componentes de postagem, que nestas postagens podemos incluir e remover comentários, além de curtir uma publicação.
 O projeto de momento, não possui um back-end concluído. A ideia até então, é o aprendizado da tecnologia Front-end ReactJS.
 
 ### Aprendizados
